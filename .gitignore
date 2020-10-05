@@ -130,9 +130,11 @@ dmypy.json
 
 # Training Files
 *.jpg
+*.png
 *.zip
 *.rar
 *.pkl
 *.txt
 Flickr8k_Dataset/*
 Flickr8k_text/*
+*.h5

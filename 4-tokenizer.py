@@ -1,4 +1,5 @@
-from pickle import load
+from keras.preprocessing.text import Tokenizer
+from pickle import dump
 
 # load doc into memory
 def load_doc(filename):
@@ -45,13 +46,19 @@ def load_clean_descriptions(filename, dataset):
 			descriptions[image_id].append(desc)
 	return descriptions
 
-# load photo features
-def load_photo_features(filename, dataset):
-	# load all features
-	all_features = load(open(filename, 'rb'))
-	# filter features
-	features = {k: all_features[k] for k in dataset}
-	return features
+# covert a dictionary of clean descriptions to a list of descriptions
+def to_lines(descriptions):
+	all_desc = list()
+	for key in descriptions.keys():
+		[all_desc.append(d) for d in descriptions[key]]
+	return all_desc
+
+# fit a tokenizer given caption descriptions
+def create_tokenizer(descriptions):
+	lines = to_lines(descriptions)
+	tokenizer = Tokenizer()
+	tokenizer.fit_on_texts(lines)
+	return tokenizer
 
 # load training dataset (6K)
 filename = 'Flickr8k_text/Flickr_8k.trainImages.txt'
@@ -60,6 +67,7 @@ print('Dataset: %d' % len(train))
 # descriptions
 train_descriptions = load_clean_descriptions('descriptions.txt', train)
 print('Descriptions: train=%d' % len(train_descriptions))
-# photo features
-train_features = load_photo_features('features.pkl', train)
-print('Photos: train=%d' % len(train_features))
+# prepare tokenizer
+tokenizer = create_tokenizer(train_descriptions)
+# save the tokenizer
+dump(tokenizer, open('tokenizer.pkl', 'wb'))
