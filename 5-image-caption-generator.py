@@ -64,9 +64,19 @@ tokenizer = load(open('tokenizer.pkl', 'rb'))
 # pre-define the max sequence length (from training)
 max_length = 34
 # load the model
-model = load_model('model_2.h5')
+model = load_model('model_1.h5')
 # load and prepare the photograph
-photo = extract_features('example10.jpg')
+photo = extract_features('example4.jpg')
 # generate description
 description = generate_desc(model, tokenizer, photo, max_length)
-print("\n\n\n" + description + "\n\n\n")
+print(description.replace('startseq', '').replace('endseq', '') + "\n")
+
+photo = extract_features('example5.jpg')
+# generate description
+description = generate_desc(model, tokenizer, photo, max_length)
+print(description.replace('startseq', '').replace('endseq', '') + "\n")
+
+photo = extract_features('example7.jpg')
+# generate description
+description = generate_desc(model, tokenizer, photo, max_length)
+print(description.replace('startseq', '').replace('endseq', '') + "\n")

@@ -124,7 +124,7 @@ def define_model(vocab_size, max_length):
     # tie it together [image, seq] [word]
     model = Model(inputs=[inputs1, inputs2], outputs=outputs)
     # compile model
-    model.compile(loss='categorical_crossentropy', optimizer='adam')
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     # summarize model
     model.summary()
     plot_model(model, to_file='model.png', show_shapes=True)
@@ -164,7 +164,7 @@ print('Description Length: %d' % max_length)
 model = define_model(vocab_size, max_length)
 
 # train the model, run epochs manually and save after each epoch
-epochs = 3
+epochs = 6
 steps = len(train_descriptions)
 for i in range(epochs):
     # create the data generator
